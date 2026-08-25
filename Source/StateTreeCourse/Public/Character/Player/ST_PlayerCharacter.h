@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputActionValue.h"
 #include "Character/ST_CharacterBase.h"
 #include "ST_PlayerCharacter.generated.h"
 
+class UInputAction;
+class UInputMappingContext;
 class UCameraComponent;
 class USpringArmComponent;
 
@@ -23,6 +26,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	virtual void PawnClientRestart() override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,4 +39,19 @@ private:
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="Camera", meta=(AllowPrivateAccess="true"))
 	UCameraComponent* FollowCamera;
+	
+#pragma region Input
+	UPROPERTY(EditDefaultsOnly, Category="Input", meta=(AllowPrivateAccess="true"))
+	UInputMappingContext* MinimalInputMappingContext;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* MoveInputAction;
+	
+	void Move(const FInputActionValue& Value);
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* LookInputAction;
+	
+	void Look(const FInputActionValue& Value);
+#pragma endregion 
 };

@@ -3,6 +3,8 @@
 
 #include "Character/Player/ST_PlayerCharacter.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -45,6 +47,31 @@ void AST_PlayerCharacter::BeginPlay()
 	
 }
 
+void AST_PlayerCharacter::Move(const FInputActionValue& Value)
+{
+	FVector2D MovementVector = Value.Get<FVector2D>();
+	
+	if (Controller != nullptr)
+	{
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
+		
+		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		
+		AddMovementInput(ForwardDirection, MovementVector.Y);
+		AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void AST_PlayerCharacter::Look(const FInputActionValue& Value)
+{
+	FVector2D LookVector = Value.Get<FVector2D>();
+	
+	AddControllerYawInput(LookVector.X);
+	AddControllerPitchInput(LookVector.Y);
+}
+
 // Called every frame
 void AST_PlayerCharacter::Tick(float DeltaTime)
 {
@@ -55,5 +82,35 @@ void AST_PlayerCharacter::Tick(float DeltaTime)
 void AST_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		if (MoveInputAction)
+		{
+			EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &AST_PlayerCharacter::Move);
+		}
+		
+		if (LookInputAction)
+		{
+			EnhancedInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &AST_PlayerCharacter::Look);
+		}
+	}
+}
+
+void AST_PlayerCharacter::PawnClientRestart()
+{
+	Super::PawnClientRestart();
+	
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* EnhancedInputLocalPlayerSubsystem 
+			= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			if (MinimalInputMappingContext != nullptr)
+			{
+				EnhancedInputLocalPlayerSubsystem->AddMappingContext(MinimalInputMappingContext, 0);
+			}
+		}
+	}
 }
 

@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Controller/Player/ST_PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -101,7 +102,7 @@ void AST_PlayerCharacter::PawnClientRestart()
 {
 	Super::PawnClientRestart();
 	
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	if (AST_PlayerController* PlayerController = Cast<AST_PlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* EnhancedInputLocalPlayerSubsystem 
 			= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))

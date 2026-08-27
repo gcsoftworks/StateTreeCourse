@@ -15,7 +15,8 @@ public class StateTreeCourse : ModuleRules
 			"Engine",
 			"InputCore",
 			"EnhancedInput",
-			"AnimGraphRuntime"
+			"AnimGraphRuntime",
+			"AIModule"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

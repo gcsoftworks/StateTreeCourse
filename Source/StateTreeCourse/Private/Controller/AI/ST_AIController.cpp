@@ -18,7 +18,28 @@ AST_AIController::AST_AIController(const FObjectInitializer& ObjectInitializer)
 
 ETeamAttitude::Type AST_AIController::GetTeamAttitudeTowards(const AActor& Other) const
 {
-	return Super::GetTeamAttitudeTowards(Other);
+	const APawn* OtherPawn = Cast<APawn>(&Other);
+	
+	IGenericTeamAgentInterface* OtherTeamAgent = Cast<IGenericTeamAgentInterface>(OtherPawn->GetController());
+	
+	if (OtherTeamAgent == nullptr)
+	{
+		return ETeamAttitude::Neutral;
+	}
+	
+	const int32 OtherTeamId = OtherTeamAgent->GetGenericTeamId();
+	
+	if (OtherTeamId != GetGenericTeamId() && OtherTeamId != -1)
+	{
+		return ETeamAttitude::Hostile;
+	}
+	
+	if (OtherTeamId == GetGenericTeamId())
+	{
+		return ETeamAttitude::Friendly;
+	}
+	
+	return ETeamAttitude::Neutral;
 }
 
 // Called when the game starts or when spawned

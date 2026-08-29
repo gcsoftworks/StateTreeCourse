@@ -6,7 +6,7 @@
 #include "Runtime/AIModule/Classes/AIController.h"
 #include "ST_AIController.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType, Abstract, meta=(DisplayName="AI Controller"))
 class STATETREECOURSE_API AST_AIController : public AAIController
 {
 	GENERATED_BODY()

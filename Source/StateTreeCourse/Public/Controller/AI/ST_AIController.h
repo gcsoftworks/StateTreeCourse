@@ -14,9 +14,6 @@ class STATETREECOURSE_API AST_AIController : public AAIController
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AST_AIController();
-	
 	explicit AST_AIController(const FObjectInitializer& ObjectInitializer);
 	
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;

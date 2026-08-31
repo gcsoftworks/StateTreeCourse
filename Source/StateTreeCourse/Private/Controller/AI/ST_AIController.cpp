@@ -6,14 +6,6 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 
-
-// Sets default values
-AST_AIController::AST_AIController()
-{
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-}
-
 AST_AIController::AST_AIController(const FObjectInitializer& ObjectInitializer)
 {
 	AAIController::SetGenericTeamId(FGenericTeamId(TeamID));
@@ -23,7 +15,7 @@ AST_AIController::AST_AIController(const FObjectInitializer& ObjectInitializer)
 	AISenseConfig_Sight = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("AISenseConfig_Sight"));
 	AISenseConfig_Sight->SightRadius = 1000.0f;
 	AISenseConfig_Sight->LoseSightRadius = 1500.0f;
-	AISenseConfig_Sight->PeripheralVisionAngleDegrees = 180.0f;
+	AISenseConfig_Sight->PeripheralVisionAngleDegrees = 90.0f;
 	AISenseConfig_Sight->DetectionByAffiliation.bDetectEnemies = true;
 	AISenseConfig_Sight->DetectionByAffiliation.bDetectFriendlies = false;
 	AISenseConfig_Sight->DetectionByAffiliation.bDetectNeutrals = false;
@@ -63,6 +55,7 @@ void AST_AIController::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	AST_AIController::SetGenericTeamId(FGenericTeamId(TeamID));
 }
 
 // Called every frame

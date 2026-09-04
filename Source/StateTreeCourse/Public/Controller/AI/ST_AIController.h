@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Runtime/AIModule/Classes/AIController.h"
 #include "ST_AIController.generated.h"
 
+class UST_StateTreeAIComponent;
 class UAISenseConfig_Sight;
 
 UCLASS(BlueprintType, Abstract, meta=(DisplayName="AI Controller"))
@@ -21,6 +23,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	UFUNCTION()
+	void OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
 public:
 	// Called every frame
@@ -39,8 +44,14 @@ private:
 	UAIPerceptionComponent* AIPerceptionComponent;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AI|Component", meta=(AllowPrivateAccess="true"))
+	UST_StateTreeAIComponent* StateTreeAIComponent;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AI|Component", meta=(AllowPrivateAccess="true"))
 	bool bUseSightSense = true;
 	
 	UPROPERTY()
 	UAISenseConfig_Sight* AISenseConfig_Sight;
+	
+	UPROPERTY()
+	AActor* HostileActor;
 };

@@ -3,6 +3,7 @@
 
 #include "Controller/AI/ST_AIController.h"
 
+#include "Component/StateTree/ST_StateTreeAIComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 
@@ -22,6 +23,10 @@ AST_AIController::AST_AIController(const FObjectInitializer& ObjectInitializer)
 	AISenseConfig_Sight->SetMaxAge(6.0f);
 	AIPerceptionComponent->ConfigureSense(*AISenseConfig_Sight);
 	AIPerceptionComponent->SetDominantSense(UAISense_Sight::StaticClass());
+	
+	AIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &AST_AIController::OnTargetPerceptionUpdated);
+	
+	StateTreeAIComponent = CreateDefaultSubobject<UST_StateTreeAIComponent>(TEXT("StateTreeAIComponent"));
 }
 
 ETeamAttitude::Type AST_AIController::GetTeamAttitudeTowards(const AActor& Other) const
@@ -56,6 +61,33 @@ void AST_AIController::BeginPlay()
 	Super::BeginPlay();
 	
 	AST_AIController::SetGenericTeamId(FGenericTeamId(TeamID));
+}
+
+void AST_AIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
+{
+	if (Actor == nullptr)
+	{
+		return;
+	}
+	
+	static const FAISenseID SightID = UAISense::GetSenseID(UAISense_Sight::StaticClass());
+	
+	if (Stimulus.Type == SightID)
+	{
+		if (Stimulus.WasSuccessfullySensed() == true)
+		{
+			if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
+			{
+				HostileActor = Actor;
+				//TODO: Send StateTree event
+			}
+		}
+		else
+		{
+			HostileActor = nullptr;
+			//TODO: Send StateTree event
+		}
+	}
 }
 
 // Called every frame

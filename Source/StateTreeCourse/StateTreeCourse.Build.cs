@@ -19,7 +19,8 @@ public class StateTreeCourse : ModuleRules
 			"AIModule", 
 			"GameplayStateTreeModule",
 			"StateTreeModule",
-			"NavigationSystem"
+			"NavigationSystem",
+			"GameplayTags"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

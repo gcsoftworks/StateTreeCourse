@@ -3,6 +3,7 @@
 
 #include "Controller/AI/ST_AIController.h"
 
+#include "ST_GameplayTag.h"
 #include "Component/StateTree/ST_StateTreeAIComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -79,13 +80,13 @@ void AST_AIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stim
 			if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 			{
 				HostileActor = Actor;
-				//TODO: Send StateTree event
+				StateTreeAIComponent->SendStateTreeEvent(ST_GameplayTag::StateTree_AI_Event_Combat);
 			}
 		}
 		else
 		{
 			HostileActor = nullptr;
-			//TODO: Send StateTree event
+			StateTreeAIComponent->SendStateTreeEvent(ST_GameplayTag::StateTree_AI_Event_Idle);
 		}
 	}
 }

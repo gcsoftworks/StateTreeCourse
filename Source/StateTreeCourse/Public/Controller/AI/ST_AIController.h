@@ -31,6 +31,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+	AActor* GetHostileActor() const { return HostileActor; }
+	
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif

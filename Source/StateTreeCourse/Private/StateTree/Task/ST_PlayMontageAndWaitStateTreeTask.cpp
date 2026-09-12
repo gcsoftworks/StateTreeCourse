@@ -14,7 +14,7 @@ EStateTreeRunStatus FST_PlayMontageAndWaitStateTreeTask::EnterState(FStateTreeEx
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	
 	InstanceData.bIsFinished = false;
-	InstanceData.bStopWhenExitState = false;
+	InstanceData.bWasInterrupted = false;
 	
 	if (InstanceData.ContextActor == nullptr || InstanceData.MontageToPlay == nullptr)
 	{

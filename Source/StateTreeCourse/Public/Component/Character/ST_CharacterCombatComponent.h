@@ -23,6 +23,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 	
+	void AttachWeaponToSocket(bool bInIsArmed);
+	
 private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="CharacterCombat", meta=(AllowPrivateAccess=true))
@@ -36,6 +38,9 @@ private:
 	
 	UPROPERTY()
 	UStaticMeshComponent* WeaponStaticMeshComponent;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
+	bool bIsArmed;
 };
 
 

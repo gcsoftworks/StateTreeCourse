@@ -44,7 +44,7 @@ void UST_CharacterCombatComponent::BeginPlay()
 	);
 	
 	WeaponStaticMeshComponent->SetStaticMesh(WeaponStaticMesh);
-	WeaponStaticMeshComponent->AttachToComponent(CharacterBaseInterface->GetSkeletalMeshComponent(), AttachmentRules, WeaponUnarmedSocketName);
+	AttachWeaponToSocket(false);
 }
 
 
@@ -55,6 +55,32 @@ void UST_CharacterCombatComponent::TickComponent(float DeltaTime, ELevelTick Tic
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UST_CharacterCombatComponent::AttachWeaponToSocket(bool bInIsArmed)
+{
+	IST_CharacterBaseInterface* CharacterBaseInterface = Cast<IST_CharacterBaseInterface>(GetOwner());
+	
+	if (CharacterBaseInterface == nullptr || WeaponStaticMesh == nullptr 
+		|| WeaponArmedSocketName == NAME_None || WeaponUnarmedSocketName == NAME_None)
+	{
+		return;
+	}
+	
+	FAttachmentTransformRules AttachmentRules = 
+		FAttachmentTransformRules(
+			EAttachmentRule::SnapToTarget,
+			EAttachmentRule::SnapToTarget,
+			EAttachmentRule::KeepWorld, true
+	);
+	
+	WeaponStaticMeshComponent->AttachToComponent(
+		CharacterBaseInterface->GetSkeletalMeshComponent(), 
+		AttachmentRules, 
+		bInIsArmed ? WeaponArmedSocketName : WeaponUnarmedSocketName
+	);
+	
+	bIsArmed = bInIsArmed;
 }
 
 

@@ -24,7 +24,7 @@ public:
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Owner", meta=(AllowPrivateAccess=true))
 	AST_CharacterBase* OwningCharacter;
 	
 	UPROPERTY()
@@ -43,6 +43,26 @@ protected:
 	float LocomotionDirection;
 	
 private:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Blendspace",meta=(AllowPrivateAccess="true"))
 	UBlendSpace1D* ForwardBlendSpace;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Blendspace",meta=(AllowPrivateAccess="true"))
+	UBlendSpace1D* ForwardArmedBlendSpace;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -38,9 +38,6 @@ private:
 	
 	UPROPERTY()
 	UStaticMeshComponent* WeaponStaticMeshComponent;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
-	bool bIsArmed;
 };
 
 

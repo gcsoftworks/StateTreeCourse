@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
+#include "Interface/ST_ActorGameplayTagsInterface.h"
 #include "Interface/ST_CharacterBaseInterface.h"
 #include "Interface/ST_CharacterCombatInterface.h"
 #include "ST_CharacterBase.generated.h"
@@ -11,7 +13,8 @@
 class UST_CharacterCombatComponent;
 
 UCLASS()
-class STATETREECOURSE_API AST_CharacterBase : public ACharacter, public IST_CharacterBaseInterface, public IST_CharacterCombatInterface
+class STATETREECOURSE_API AST_CharacterBase : public ACharacter, public IST_CharacterBaseInterface, public IST_CharacterCombatInterface,
+public IST_ActorGameplayTagsInterface
 {
 	GENERATED_BODY()
 
@@ -34,14 +37,40 @@ public:
 	
 	virtual UST_CharacterCombatComponent* GetCharacterCombatComponent() const override;
 	
+	virtual FGameplayTagContainer& GetOwnedGameplayTags() override;
+	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
 	UStaticMeshComponent* WeaponStaticMeshComponent;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
 	UST_CharacterCombatComponent* CharacterCombatComponent;
-
+	
+	UPROPERTY()
+	FGameplayTagContainer OwnedGameplayTags;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

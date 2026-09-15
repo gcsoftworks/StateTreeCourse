@@ -1,17 +1,17 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Animation/AnimNotify/ST_ShouldAttachWeaponToSocket.h"
+#include "Animation/AnimNotify/ST_ShouldAttachWeaponToSocketAnimNotify.h"
 
 #include "Component/Character/ST_CharacterCombatComponent.h"
 #include "Interface/ST_CharacterCombatInterface.h"
 
-bool UST_ShouldAttachWeaponToSocket::ShouldFireInEditor()
+bool UST_ShouldAttachWeaponToSocketAnimNotify::ShouldFireInEditor()
 {
 	return false;
 }
 
-void UST_ShouldAttachWeaponToSocket::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
+void UST_ShouldAttachWeaponToSocketAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
 	const FAnimNotifyEventReference& EventReference)
 {
 	Super::Notify(MeshComp, Animation, EventReference);
@@ -26,7 +26,7 @@ void UST_ShouldAttachWeaponToSocket::Notify(USkeletalMeshComponent* MeshComp, UA
 	CharacterCombatInterface->GetCharacterCombatComponent()->AttachWeaponToSocket(bIsArmed);
 }
 
-FString UST_ShouldAttachWeaponToSocket::GetNotifyName_Implementation() const
+FString UST_ShouldAttachWeaponToSocketAnimNotify::GetNotifyName_Implementation() const
 {
 	if (bIsArmed)
 	{

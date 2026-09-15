@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
-#include "ST_ShouldAttachWeaponToSocket.generated.h"
+#include "ST_ShouldAttachWeaponToSocketAnimNotify.generated.h"
 
 /**
  * 
  */
 UCLASS(meta=(DisplayName="Should Attach Weapon To Socket"))
-class STATETREECOURSE_API UST_ShouldAttachWeaponToSocket : public UAnimNotify
+class STATETREECOURSE_API UST_ShouldAttachWeaponToSocketAnimNotify : public UAnimNotify
 {
 	GENERATED_BODY()
 	

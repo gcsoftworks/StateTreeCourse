@@ -53,3 +53,30 @@ UST_CharacterCombatComponent* AST_CharacterBase::GetCharacterCombatComponent() c
 	return CharacterCombatComponent;
 }
 
+FGameplayTagContainer& AST_CharacterBase::GetOwnedGameplayTags()
+{
+	return OwnedGameplayTags;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

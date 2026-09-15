@@ -3,6 +3,8 @@
 
 #include "Component/Character/ST_CharacterCombatComponent.h"
 
+#include "ST_BlueprintFunctionLibrary.h"
+#include "ST_GameplayTag.h"
 #include "Character/ST_CharacterBase.h"
 
 
@@ -80,7 +82,14 @@ void UST_CharacterCombatComponent::AttachWeaponToSocket(bool bInIsArmed)
 		bInIsArmed ? WeaponArmedSocketName : WeaponUnarmedSocketName
 	);
 	
-	bIsArmed = bInIsArmed;
+	if (bInIsArmed)
+	{
+		UST_BlueprintFunctionLibrary::NativeAddGameplayTagToActor(GetOwner(), ST_GameplayTag::Shared_Status_Armed);
+	}
+	else
+	{
+		UST_BlueprintFunctionLibrary::NativeRemoveGameplayTagFromActor(GetOwner(), ST_GameplayTag::Shared_Status_Armed);
+	}
 }
 
 

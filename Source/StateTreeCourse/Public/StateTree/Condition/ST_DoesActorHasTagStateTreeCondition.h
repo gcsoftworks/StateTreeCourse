@@ -24,7 +24,7 @@ struct FST_DoesContextActorHasTagConditionInstanceData
 USTRUCT(Category="Condition|GameplayTags", 
 	meta=(DisplayName="Does Context Actor Has Tag")
 )
-struct FST_DoesContextActorHasTagStateTreeCondition : public FStateTreeConditionCommonBase
+struct STATETREECOURSE_API FST_DoesContextActorHasTagStateTreeCondition : public FStateTreeConditionCommonBase
 {
 	GENERATED_BODY()
 	

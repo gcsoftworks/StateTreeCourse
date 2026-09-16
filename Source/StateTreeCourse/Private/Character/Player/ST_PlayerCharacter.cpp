@@ -36,7 +36,7 @@ AST_PlayerCharacter::AST_PlayerCharacter()
 	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
-	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	GetCharacterMovement()->MaxAcceleration = 1800.0f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.0f;
 }
@@ -73,6 +73,36 @@ void AST_PlayerCharacter::Look(const FInputActionValue& Value)
 	AddControllerPitchInput(LookVector.Y);
 }
 
+void AST_PlayerCharacter::StartRun(const FInputActionValue& Value)
+{
+	TargetSpeed = RunSpeed;
+	
+	GetWorldTimerManager().SetTimer(UpdateWalkSpeedTimerHandle, this,
+		&AST_PlayerCharacter::UpdateWalkSpeed, ChangeSpeedTimerInterval, true);
+}
+
+void AST_PlayerCharacter::StopRun(const FInputActionValue& Value)
+{
+	TargetSpeed = WalkSpeed;
+	
+	GetWorldTimerManager().SetTimer(UpdateWalkSpeedTimerHandle, this,
+		&AST_PlayerCharacter::UpdateWalkSpeed, ChangeSpeedTimerInterval, true);
+}
+
+void AST_PlayerCharacter::UpdateWalkSpeed()
+{
+	float CurrentSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	
+	float NewSpeed = FMath::FInterpConstantTo(CurrentSpeed, TargetSpeed, ChangeSpeedTimerInterval, SpeedChangeRate);
+	
+	GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
+	
+	if (FMath::IsNearlyEqual(NewSpeed, TargetSpeed, 0.1f))
+	{
+		GetWorldTimerManager().ClearTimer(UpdateWalkSpeedTimerHandle);
+	}
+}
+
 // Called every frame
 void AST_PlayerCharacter::Tick(float DeltaTime)
 {
@@ -94,6 +124,12 @@ void AST_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		if (LookInputAction)
 		{
 			EnhancedInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &AST_PlayerCharacter::Look);
+		}
+		
+		if (RunInputAction)
+		{
+			EnhancedInputComponent->BindAction(RunInputAction, ETriggerEvent::Started, this, &AST_PlayerCharacter::StartRun);
+			EnhancedInputComponent->BindAction(RunInputAction, ETriggerEvent::Completed, this, &AST_PlayerCharacter::StopRun);
 		}
 	}
 }

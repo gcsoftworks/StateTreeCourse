@@ -53,5 +53,50 @@ private:
 	UInputAction* LookInputAction;
 	
 	void Look(const FInputActionValue& Value);
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* RunInputAction;
+	
+	void StartRun(const FInputActionValue& Value);
+	
+	void StopRun(const FInputActionValue& Value);
+	
+	void UpdateWalkSpeed();
+	
+	FTimerHandle UpdateWalkSpeedTimerHandle;
+	
+	float TargetSpeed;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float WalkSpeed = 300.0f;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float RunSpeed = 750.0f;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float SpeedChangeRate = 1200.0f;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Movement")
+	float ChangeSpeedTimerInterval = 0.02f;
 #pragma endregion 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

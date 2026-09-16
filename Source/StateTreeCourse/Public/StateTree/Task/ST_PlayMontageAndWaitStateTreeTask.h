@@ -33,7 +33,7 @@ USTRUCT(Category="AI|Animation", meta=(
 	ToolTip="Play Montage And Wait On Context Actor",
 	Keywords="AI, Animation, Montage, StateTree"
 ))
-struct FST_PlayMontageAndWaitStateTreeTask : public FStateTreeTaskCommonBase
+struct STATETREECOURSE_API FST_PlayMontageAndWaitStateTreeTask : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 	

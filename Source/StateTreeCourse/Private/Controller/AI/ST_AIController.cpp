@@ -79,12 +79,18 @@ void AST_AIController::OnTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stim
 		{
 			if (GetTeamAttitudeTowards(*Actor) == ETeamAttitude::Hostile)
 			{
-				HostileActor = Actor;
-				StateTreeAIComponent->SendStateTreeEvent(ST_GameplayTag::StateTree_AI_Event_Combat);
+				if (StateTreeAIComponent->GetOwnedGameplayTags().HasTag(ST_GameplayTag::StateTree_State_Combat) == false)
+				{
+					StateTreeAIComponent->GetOwnedGameplayTags().AddTag(ST_GameplayTag::StateTree_State_Combat);
+					HostileActor = Actor;
+					StateTreeAIComponent->SendStateTreeEvent(ST_GameplayTag::StateTree_AI_Event_Combat);
+				}
 			}
 		}
 		else
 		{
+			StateTreeAIComponent->GetOwnedGameplayTags().Reset();
+			StateTreeAIComponent->GetOwnedGameplayTags().AddTag(ST_GameplayTag::StateTree_State_Idle);
 			HostileActor = nullptr;
 			StateTreeAIComponent->SendStateTreeEvent(ST_GameplayTag::StateTree_AI_Event_Idle);
 		}

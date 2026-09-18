@@ -22,6 +22,8 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+	
+	void SetHeadLookAngle(const float InAngle) { HeadLookAngle = InAngle; }
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Owner", meta=(AllowPrivateAccess=true))
@@ -41,6 +43,9 @@ protected:
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|Locomotion")
 	float LocomotionDirection;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category="AnimData|Locomotion")
+	float HeadLookAngle = 0.0f;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Blendspace",meta=(AllowPrivateAccess="true"))

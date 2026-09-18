@@ -39,6 +39,10 @@ public:
 	
 	virtual FGameplayTagContainer& GetOwnedGameplayTags() override;
 	
+	virtual void GetActorEyesViewPoint(FVector& OutLocation, FRotator& OutRotation) const override;
+	
+	virtual void SetHeadLookAroundActive(bool bActive) override;
+	
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(AllowPrivateAccess=true))
 	UStaticMeshComponent* WeaponStaticMeshComponent;
@@ -48,6 +52,9 @@ private:
 	
 	UPROPERTY()
 	FGameplayTagContainer OwnedGameplayTags;
+	
+	UPROPERTY()
+	bool bHeadLookAroundActive;
 };
 
 

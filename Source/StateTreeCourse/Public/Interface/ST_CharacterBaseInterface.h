@@ -24,4 +24,5 @@ class STATETREECOURSE_API IST_CharacterBaseInterface
 public:
 	virtual USkeletalMeshComponent* GetSkeletalMeshComponent() const;
 	virtual UStaticMeshComponent* GetWeaponStaticMeshComponent() const;
+	virtual void SetHeadLookAroundActive(bool bActive) = 0;
 };

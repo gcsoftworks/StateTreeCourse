@@ -58,6 +58,26 @@ FGameplayTagContainer& AST_CharacterBase::GetOwnedGameplayTags()
 	return OwnedGameplayTags;
 }
 
+void AST_CharacterBase::GetActorEyesViewPoint(FVector& OutLocation, FRotator& OutRotation) const
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	const bool bIsPlayingMontage = AnimInstance->IsAnyMontagePlaying();
+	
+	if (bHeadLookAroundActive && bIsPlayingMontage == false)
+	{
+		OutLocation = GetSkeletalMeshComponent()->GetSocketLocation("Eyes_Socket");
+		OutRotation = GetSkeletalMeshComponent()->GetSocketRotation("Eyes_Socket");
+		return;
+	}
+	
+	Super::GetActorEyesViewPoint(OutLocation, OutRotation);
+}
+
+void AST_CharacterBase::SetHeadLookAroundActive(bool bActive)
+{
+	bHeadLookAroundActive = bActive;
+}
+
 
 
 
